@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class="post-detail">
     {% if post.photo %}
     <img src="{{ post.photo.url }}" alt="">
     {% else %}
     <h3>이미지 파일이 없습니다.</h3>
     {% endif %}
 
-    <form action="">
+    <form action="{% url 'comment-create' pk=post.pk %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form }}
         <button class="btn-primary btn btn-block">작성</button>
     </form>
 
