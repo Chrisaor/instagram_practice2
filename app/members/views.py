@@ -10,6 +10,8 @@ def signup(request):
         password = request.POST['password']
 
         if username and password:
+            if User.objects.filter(username=username).exists():
+                return HttpResponse(f'Username {username} is already exist!')
             user = User.objects.create_user(
                 username=username,
                 password=password,
