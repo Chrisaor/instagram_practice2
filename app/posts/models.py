@@ -5,6 +5,6 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class PostComment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
