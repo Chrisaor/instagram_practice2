@@ -2,7 +2,9 @@
 
 {% block content %}
     {% for post in posts %}
-        <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
+<a href="{% url 'post-detail' pk=post.pk %}">
+    <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
+</a>
             {% for comment in post.postcomment_set.all %}
             <p>{{ comment }}</p>
             {% endfor %}

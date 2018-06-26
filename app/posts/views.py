@@ -21,7 +21,15 @@ def post_create(request):
                 photo=form.cleaned_data['photo']
             )
             return HttpResponse(f'<img src="{post.photo.url}">')
-        else:
-            return HttpResponse('Form invalid!')
-    else:
-        return render(request, 'posts/post_create.html')
+    form = PostForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'posts/post_create.html', context)
+
+def post_detail(request,pk):
+    post = Post.objects.get(pk=pk)
+    context = {
+        'post':post,
+    }
+    return render(request, 'posts/post_detail.html', context)
