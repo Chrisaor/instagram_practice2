@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
-from posts.forms import PostForm
-from posts.models import Post
+from posts.forms import PostForm, CommentForm
+from posts.models import Post, PostComment
 
 
 def post_list(request):
@@ -33,3 +33,20 @@ def post_detail(request,pk):
         'post':post,
     }
     return render(request, 'posts/post_detail.html', context)
+
+def comment_create(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            PostComment.objects.create(
+                post=post,
+                content=form.cleaned_data['content']
+            )
+            return redirect('post-detail', pk=pk)
+    else:
+        form = CommentForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'posts/comment_create.html', context)
