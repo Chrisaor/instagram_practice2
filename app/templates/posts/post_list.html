@@ -13,7 +13,7 @@
             {{ comment_form }}
             <button class="btn btn-primary btn-block">댓글 달기</button>
         </form>
-        <ul>
+        <ul id="post-comments--{{ post.pk }}">
             {% for comment in post.comments.all %}
             <li>{{ comment }}</li>
             {% endfor %}
