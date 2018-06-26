@@ -21,7 +21,10 @@ def signup(request):
                 password=password,
             )
             return HttpResponse(f'{user.username}, {user.password}')
-    form = SignupForm()
+        print(form.cleaned_data)
+        print(form.errors)
+    else:
+        form = SignupForm()
     context = {
         'form':form,
     }

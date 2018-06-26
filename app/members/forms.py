@@ -1,5 +1,7 @@
 from django import forms
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class SignupForm(forms.Form):
     username = forms.CharField(
@@ -16,3 +18,9 @@ class SignupForm(forms.Form):
             }
         )
     )
+
+    def clean_username(self):
+        data = self.cleaned_data['username']
+        if User.objects.filter(username=data).exists():
+            raise forms.ValidationError('중복!!!!!')
+        return data
