@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div>
+    <a href="#last">Last로 갑시다</a>
     {% for post in posts %}
-<a href="{% url 'post-detail' pk=post.pk %}">
-    <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
-</a>
-            {% for comment in post.postcomment_set.all %}
-            <p>{{ comment }}</p>
+    <div>
+        <a href="{% url 'post-detail' pk=post.pk %}">
+        <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
+    </a>
+        <form action="{% url 'comment-create' pk=post.pk %}?next=/post/#post-comments--{{ post.pk }}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button class="btn btn-primary btn-block">댓글 달기</button>
+        </form>
+        <ul>
+            {% for comment in post.comments.all %}
+            <li>{{ comment }}</li>
             {% endfor %}
+        </ul>
+    </div>
     {% endfor %}
+    <div id="last">Last</div>
+</div>
 {% endblock %}

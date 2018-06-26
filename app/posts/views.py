@@ -7,8 +7,10 @@ from posts.models import Post, PostComment
 
 def post_list(request):
     posts = Post.objects.all()
+    comment_form = CommentForm()
     context = {
         'posts':posts,
+        'comment_form':comment_form,
     }
     return render(request, 'posts/post_list.html', context)
 
@@ -45,4 +47,9 @@ def comment_create(request, pk):
                 post=post,
                 content=form.cleaned_data['content']
             )
+            print(request.GET)
+            next = request.GET.get('next')
+            print(next)
+            if next:
+                return redirect(next)
             return redirect('post-detail', pk=pk)
