@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>list</p>
+    {% for post in posts %}
+        <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
+            {% for comment in post.postcomment_set.all %}
+            <p>{{ comment }}</p>
+            {% endfor %}
+    {% endfor %}
 {% endblock %}

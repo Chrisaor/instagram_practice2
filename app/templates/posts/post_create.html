@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="photo">
+        <button>글을 쓰자</button>
+    </form>
+</div>
+{% endblock %}
