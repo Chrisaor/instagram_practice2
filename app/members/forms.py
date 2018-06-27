@@ -24,9 +24,8 @@ class LoginForm(forms.Form):
         self.user = None
 
     def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
 
         self.user = authenticate(
             username=username,
@@ -59,10 +58,38 @@ class SignupForm(forms.Form):
             }
         )
     )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+            }
+        )
+    )
 
     def clean_username(self):
         data = self.cleaned_data['username']
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError('중복!!!!!')
         return data
+
+    def clean_password2(self):
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password2']
+
+        if password != password2:
+            raise forms.ValidationError('Password1 and Password2 are not equal')
+        return password2
+
+    def clean(self):
+        if self.is_valid():
+            setattr(self, 'signup', self._signup)
+            return self.cleaned_data
+
+    def _signup(self):
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        return User.objects.create_user(
+            username=username,
+            password=password
+        )
 

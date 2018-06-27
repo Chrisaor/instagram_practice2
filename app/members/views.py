@@ -10,23 +10,12 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-
-
-            if User.objects.filter(username=username).exists():
-                return HttpResponse(f'Username {username} is already exist!')
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-            )
+            user = form.signup()
             return HttpResponse(f'{user.username}, {user.password}')
-        print(form.cleaned_data)
-        print(form.errors)
     else:
         form = SignupForm()
     context = {
-        'form':form,
+        'signup_form':form,
     }
     return render(request, 'members/signup.html', context)
 
@@ -36,7 +25,10 @@ def login(request):
        if form.is_valid():
            form._login(request)
            return redirect('post-list')
-       else:
-           return HttpResponse('Login credentials invalid')
+
     else:
-        return render(request, 'members/login.html')
+        form = LoginForm()
+    context = {
+        'login_form':form,
+    }
+    return render(request, 'members/login.html', context)
