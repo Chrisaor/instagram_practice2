@@ -71,5 +71,18 @@ def post_delete(request, pk):
         else:
             raise PermissionDenied('작성자가 아닙니다.')
 
+def comment_delete(request, pk):
+    next_path = request.GET.get('next','').strip()
+
+    if request.method == 'POST':
+        comment = get_object_or_404(PostComment, pk=pk)
+        if comment.author == request.user:
+            comment.delete()
+            if next_path:
+                return redirect(next_path)
+            return redirect('posts:post_detail', pk=comment.post.pk)
+        else:
+            raise PermissionDenied('작성자가 아닙니다')
+
 
 

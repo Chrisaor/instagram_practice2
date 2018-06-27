@@ -9,6 +9,10 @@ ul, ol {
   margin: 0;
 }
 
+form.form-inline {
+  display: inline-block;
+}
+
 img.img-post {
   width: 100%;
 }

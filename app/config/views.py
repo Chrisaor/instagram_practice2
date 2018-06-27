@@ -2,5 +2,5 @@ from django.shortcuts import redirect
 
 
 def index(request):
-    return redirect('posts:post_list')
+    return redirect('posts:post-list')
 
