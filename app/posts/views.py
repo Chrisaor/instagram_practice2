@@ -52,4 +52,4 @@ def comment_create(request, pk):
             print(next)
             if next:
                 return redirect(next)
-            return redirect('post-detail', pk=pk)
+            return redirect('posts:post-detail', pk=pk)

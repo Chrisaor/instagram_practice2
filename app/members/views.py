@@ -24,7 +24,7 @@ def login(request):
        form = LoginForm(request.POST)
        if form.is_valid():
            form._login(request)
-           return redirect('post-list')
+           return redirect('posts:post-list')
 
     else:
         form = LoginForm()
@@ -35,4 +35,4 @@ def login(request):
 
 def logout(request):
     django_logout(request)
-    return redirect('post-list')
+    return redirect('posts:post-list')

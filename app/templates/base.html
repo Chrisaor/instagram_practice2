@@ -13,10 +13,12 @@
 <body>
 <div>
     <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <a href="{% url 'post-list' %}"><h1>Instagram</h1></a>
+        <a href="{% url 'posts:post-list' %}"><h1>Instagram</h1></a>
         <p class="text-right">
             {% if user.is_authenticated %}
-                {{ user.username }}님 환영합니다! <a href="{% url 'logout' %}" class="btn btn-xs btn-primary">로그아웃</a>
+                {{ user.username }}님 환영합니다! <a href="{% url 'members:logout' %}" class="btn btn-xs btn-primary">로그아웃</a>
+            {% else %}
+            <a href="{% url 'members:login' %}" class="btn btn-xs btn-primary">로그인</a>
             {% endif %}
         </p>
         <hr>

@@ -15,7 +15,7 @@
                     <li>{{ comment.content }}</li>
                     {% endfor %}
                 </ul>
-                <form action="{% url 'comment-create' pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+                <form action="{% url 'posts:comment-create' pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
                     {% csrf_token %}
                     {{ comment_form }}
                     <button class="btn btn-primary btn-block">댓글달기</button>
