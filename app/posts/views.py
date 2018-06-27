@@ -69,7 +69,7 @@ def post_delete(request, pk):
             post.delete()
             return redirect('posts:post-list')
         else:
-            raise PermissionDenied
+            raise PermissionDenied('작성자가 아닙니다.')
 
 
 
