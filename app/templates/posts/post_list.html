@@ -2,24 +2,27 @@
 
 {% block content %}
 <div>
-    <a href="#last">Last로 갑시다</a>
     {% for post in posts %}
-    <div>
-        <a href="{% url 'post-detail' pk=post.pk %}">
-        <img src="{{ post.photo.url }}" alt="" width="500px" height="500px">
-    </a>
-        <form action="{% url 'comment-create' pk=post.pk %}?next=/post/#post-comments--{{ post.pk }}" method="POST">
-            {% csrf_token %}
-            {{ comment_form }}
-            <button class="btn btn-primary btn-block">댓글 달기</button>
-        </form>
-        <ul id="post-comments--{{ post.pk }}">
-            {% for comment in post.comments.all %}
-            <li>{{ comment }}</li>
-            {% endfor %}
-        </ul>
+    <div id="post-{{ post.pk }}" class="panel panel-default post">
+        <div class="panel-heading">Head</div>
+        <div class="panel-body">
+            <a href="{% url 'post-detail' pk=post.pk %}">
+                <img src="{{ post.photo.url }}" class="img-post" alt="">
+            </a>
+            <div class="body-content">
+                <ul id="post-comments-{{ post.pk }}">
+                    {% for comment in post.comments.all %}
+                    <li>{{ comment.content }}</li>
+                    {% endfor %}
+                </ul>
+                <form action="{% url 'comment-create' pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <button class="btn btn-primary btn-block">댓글달기</button>
+                </form>
+            </div>
+        </div>
     </div>
     {% endfor %}
-    <div id="last">Last</div>
 </div>
 {% endblock %}

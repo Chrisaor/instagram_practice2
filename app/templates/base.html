@@ -11,19 +11,18 @@
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 </head>
 <body>
-<div class="container">
-    <a href="{% url 'post-list' %}"><h1>Instagram</h1></a>
-    <div>
-        <p>{{ user }}</p>
-    {% if user.is_authenticated %}
-        {{ user.username }}님, 환영합니다. [로그아웃하기]
-    {% else %}
-        로그인해주세요
-    {% endif %}
+<div>
+    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <a href="{% url 'post-list' %}"><h1>Instagram</h1></a>
+        <p class="text-right">
+            {% if user.is_authenticated %}
+                {{ user.username }}님 환영합니다! <a href="{% url 'logout' %}" class="btn btn-xs btn-primary">로그아웃</a>
+            {% endif %}
+        </p>
+        <hr>
+        {% block content %}
+        {% endblock %}
     </div>
-    <hr>
 </div>
-{% block content %}
-{% endblock %}
 </body>
 </html>

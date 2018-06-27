@@ -23,6 +23,8 @@ STATICFILES_DIR = [
     STATIC_DIR,
 ]
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -34,6 +36,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'members.User'
 
 # Application definition
 
