@@ -44,6 +44,7 @@ def post_detail(request,pk):
 def comment_create(request, pk):
     if not request.user.is_authenticated:
         return redirect('members:login')
+
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -54,7 +55,7 @@ def comment_create(request, pk):
                 content=form.cleaned_data['content']
             )
             print(request.GET)
-            next = request.GET.get('next')
+            next = request.GET.get('next', '').strip()
             print(next)
             if next:
                 return redirect(next)
