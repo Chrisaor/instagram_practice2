@@ -49,11 +49,11 @@ def comment_create(request, pk):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            PostComment.objects.create(
-                post=post,
-                author=request.user,
-                content=form.cleaned_data['content']
-            )
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+
             print(request.GET)
             next = request.GET.get('next', '').strip()
             print(next)

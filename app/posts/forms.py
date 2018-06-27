@@ -1,6 +1,6 @@
 from django import forms
 
-from posts.models import Post
+from posts.models import Post, PostComment
 
 
 class PostForm(forms.ModelForm):
@@ -19,12 +19,17 @@ class PostForm(forms.ModelForm):
             self.instance.author = author
         return super().save(*args, **kwargs)
 
-class CommentForm(forms.Form):
-
-    content = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'class':'form-control',
-            }
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = PostComment
+        fields = (
+            'content',
         )
-    )
+
+        widget={
+            'content': forms.TextInput(
+                attrs={
+                    'class':'form-control',
+                }
+            )
+        }

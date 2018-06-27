@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 
 User = get_user_model()
 
@@ -43,64 +44,37 @@ class LoginForm(forms.Form):
 
 
 
-class SignupForm(forms.Form):
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
+class SignupForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        class_update_fields = ('password1', 'password2')
+        for field in class_update_fields:
+            self.fields[field].widget.attrs.update({
                 'class':'form-control',
-            }
-        )
-    )
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                'class':'form-control',
-            }
-        )
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                'class':'form-control',
-            }
-        )
-    )
-    age = forms.IntegerField(
-        widget=forms.NumberInput(
-            attrs={
-                'class':'form-control',
-            }
-        )
-    )
+            })
 
-    def clean_username(self):
-        data = self.cleaned_data['username']
-        if User.objects.filter(username=data).exists():
-            raise forms.ValidationError('중복!!!!!')
-        return data
-
-    def clean_password2(self):
-        password = self.cleaned_data['password']
-        password2 = self.cleaned_data['password2']
-
-        if password != password2:
-            raise forms.ValidationError('Password1 and Password2 are not equal')
-        return password2
-
-    def clean(self):
-        if self.is_valid():
-            setattr(self, 'signup', self._signup)
-            return self.cleaned_data
-
-    def _signup(self):
-        username = self.cleaned_data['username']
-        password = self.cleaned_data['password']
-        age = self.cleaned_data['age']
-        return User.objects.create_user(
-            username=username,
-            password=password,
-            age=age,
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'password1',
+            'password2',
+            'img_profile',
+            'age',
         )
+        widgets = {
+            'username': forms.TextInput(
+                attrs={
+                    'class':'form-control',
+                }
+            ),
+            'age': forms.NumberInput(
+                attrs={
+                    'class':'form-control',
+                }
+            ),
+        }
+
 
 
 
