@@ -65,6 +65,13 @@ class SignupForm(forms.Form):
             }
         )
     )
+    age = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class':'form-control',
+            }
+        )
+    )
 
     def clean_username(self):
         data = self.cleaned_data['username']
@@ -88,8 +95,12 @@ class SignupForm(forms.Form):
     def _signup(self):
         username = self.cleaned_data['username']
         password = self.cleaned_data['password']
+        age = self.cleaned_data['age']
         return User.objects.create_user(
             username=username,
-            password=password
+            password=password,
+            age=age,
         )
+
+
 
