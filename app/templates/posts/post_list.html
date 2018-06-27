@@ -6,7 +6,7 @@
     <div id="post-{{ post.pk }}" class="panel panel-default post">
         <div class="panel-heading">Head</div>
         <div class="panel-body">
-            <a href="{% url 'post-detail' pk=post.pk %}">
+            <a href="{% url 'posts:post-detail' pk=post.pk %}">
                 <img src="{{ post.photo.url }}" class="img-post" alt="">
             </a>
             <div class="body-content">

@@ -18,11 +18,10 @@ def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
-            post = Post.objects.create(
+            Post.objects.create(
                 photo=form.cleaned_data['photo']
             )
-            return HttpResponse(f'<img src="{post.photo.url}">')
+            return redirect('posts:post-list')
     form = PostForm()
     context = {
         'form':form,
