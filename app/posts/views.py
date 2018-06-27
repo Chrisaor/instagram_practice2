@@ -22,10 +22,9 @@ def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            Post.objects.create(
-                author=request.user,
-                photo=form.cleaned_data['photo']
-            )
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect('posts:post-list')
     form = PostForm()
     context = {
