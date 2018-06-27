@@ -21,3 +21,12 @@ img.img-post {
 .post .panel-body .body-content {
   padding: 10px;
 }
+
+.post .panel_heading form {
+  display: inline-block;
+}
+
+.post .panel-body {
+  padding: 0;
+  margin: 0;
+}

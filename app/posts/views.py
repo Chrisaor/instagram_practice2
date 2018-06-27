@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -60,3 +61,15 @@ def comment_create(request, pk):
             if next:
                 return redirect(next)
             return redirect('posts:post-detail', pk=pk)
+
+def post_delete(request, pk):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, pk=pk)
+        if post.author == request.user:
+            post.delete()
+            return redirect('posts:post-list')
+        else:
+            raise PermissionDenied
+
+
+
