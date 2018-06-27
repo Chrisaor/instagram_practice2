@@ -1,6 +1,6 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from members.forms import SignupForm
 
@@ -29,3 +29,21 @@ def signup(request):
         'form':form,
     }
     return render(request, 'members/signup.html', context)
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(
+            username=username,
+            password=password,
+        )
+
+        if user is not None:
+            login(request, user)
+            return redirect('post-list')
+        else:
+            return HttpResponse('Login credentials invalid')
+    else:
+        return render(request, 'members/login.html')
