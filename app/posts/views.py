@@ -42,12 +42,15 @@ def post_detail(request,pk):
     return render(request, 'posts/post_detail.html', context)
 
 def comment_create(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('members:login')
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             PostComment.objects.create(
                 post=post,
+                author=request.user,
                 content=form.cleaned_data['content']
             )
             print(request.GET)
