@@ -15,10 +15,14 @@ def post_list(request):
     return render(request, 'posts/post_list.html', context)
 
 def post_create(request):
+    if not request.user.is_authenticated:
+        return redirect('members:login')
+
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             Post.objects.create(
+                author=request.user,
                 photo=form.cleaned_data['photo']
             )
             return redirect('posts:post-list')
